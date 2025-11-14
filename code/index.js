@@ -62,3 +62,9 @@ function getBoundingClientRect(element) {
     test_element.remove();
     return sizes;
 }
+
+function rangeTranslate(n, x, y){
+    var OldRange = (x[1] - x[0]);
+    var NewRange = (y[1] - y[0]);
+    return (((n - x[0]) * NewRange) / OldRange) + y[0];
+}

@@ -7,8 +7,8 @@ var locales = {
     saturday: "Saturday",
     sunday: "Sunday",
 
-    lekciq: "Лекция",
-    seminarno: "Семинарно Упражнение",
-    uprajnenie: "Упражнение",
+    lecture: "Lecture",
+    seminar: "Seminar",
+    laboratory: "Laboratory",
 
 };

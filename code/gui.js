@@ -31,7 +31,9 @@ function loadWeek(){
         daysContainer.appendChild(dayElement);
     }
 
-
+    const gridElement = document.createElement("div");
+    gridElement.classList = "grid";
+    daysContainer.appendChild(gridElement);
 }
 
 function times(){
@@ -53,6 +55,42 @@ function times(){
         element.textContent = time;
         classesElement.appendChild(element);
     }
+
+    const currentTime = document.createElement("div");
+    currentTime.classList = "currentTime";
+    
+
+    var currentTimeDisplay = document.createElement("div");
+    currentTimeDisplay.classList = "currentTimeDisplay";
+    currentTime.appendChild(currentTimeDisplay);
+
+    var currentTimeLine = document.createElement("div");
+    currentTimeLine.classList = "currentTimeLine";
+    currentTime.appendChild(currentTimeLine);
+
+    var startMinutes = programa.meta.times[0].split(".");
+    startMinutes = startMinutes[0]*60 + startMinutes[1]*1;
+    var endMinutes = programa.meta.times[programa.meta.times.length - 1].split(".");
+    endMinutes = endMinutes[0]*60 + endMinutes[1]*1;
+    
+    function updateCurrentTime(){
+        var date = new Date;
+        var minutes = date.getMinutes();
+        var hour = date.getHours();
+        
+        currentTime.style.setProperty("--time", `${hour*60 + minutes}`);
+        currentTimeDisplay.textContent = `${hour}:${minutes < 10 ? '0' + minutes : minutes}`;
+
+        var minutesNow = hour*60 + minutes;
+
+        var positionPercent = rangeTranslate(minutesNow, [startMinutes, endMinutes], [0, 100]);
+        timeElement.style.setProperty("--currentTimePosition", `${positionPercent}%`);
+    }
+
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 60000);
+
+    classesElement.appendChild(currentTime);
 
     return timeElement;
 }
@@ -122,7 +160,6 @@ function createCourseElement(course, data, weekNumber){
     const element = document.createElement("div");
     element.classList = "class";
 
-    console.log(weekNumber)
     // if(data.weeks == "all"){} else
     if(data.weeks.includes("-")){
         var weeks = data.weeks.split("-");
@@ -146,6 +183,24 @@ function createCourseElement(course, data, weekNumber){
     title.classList = "title";
     title.textContent = course;
     element.appendChild(title);
+
+    var subtitle = document.createElement("p");
+    subtitle.classList = "subtitle";
+
+    var type = data.type;
+    if(type == "л"){
+        type = locales.lecture;
+    }
+    if(type == "су"){
+        type = locales.seminar;
+    }
+    if(type == "лу"){
+        type = locales.laboratory;
+    }
+
+    subtitle.textContent = `${type} ${data.room}`;
+
+    element.appendChild(subtitle);
 
 
     return element;
