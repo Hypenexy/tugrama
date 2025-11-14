@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+    outline: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html, body, .app{
+    height: 100%;
+}
+
+.calendar, .days, .classes{
+    height: 100%;
+}
+
+.calendar .days{
+    display: flex;
+
+    gap: 4px;
+}
+
+.calendar .days .day{
+    flex: 1;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar .days .day.times{
+    max-width: 70px;
+}
+.calendar .days .day.times .classes div{
+    color: #595972;
+    text-align: center;
+}
+
+.calendar .days .day .display{
+    height: 34px;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4px;
+}
+.calendar .days .day .display .firstCharacter{
+    color: #595972;
+}
+.calendar .days .day .display:hover .firstCharacter,
+.calendar .days .day .display.active .firstCharacter{
+    color: initial;
+}
+.calendar .days .day .display .nameOfDay{
+    width: 0px;
+    transition: .3s;
+}
+.calendar .days .day .display:hover .nameOfDay,
+.calendar .days .day .display.active .nameOfDay{
+    width: var(--width);
+}
+
+.calendar .days .day .display .date{
+    padding: 4px;
+    background-color: #fff;
+}
+
+.calendar .days .day .display .date::after{
+    content: '';
+    position: absolute;
+    top: 0px;
+    width: var(--width);
+    height: var(--height);
+    background-color: #fff;
+    transition: .3s;
+}
+.calendar .days .day .display:hover .date::after,
+.calendar .days .day .display.active .date::after{
+    width: 0px;
+}
+
+.calendar .days .day .classes{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(12, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 4px;
+}
+
+.calendar .days .day .classes .class{
+    border: 2px solid #b2b9d3;
+    background-color: #c0c6db44;
+    border-radius: 12px;
+    grid-area: var(--size);
+
+    padding: 8px;
+}
+
+.calendar .days .day .classes .class .title{
+    color: #4d5366;
+    font-weight: 600;
+}
+.calendar .days .day .classes .class .subtitle{
+    color: #4d536683;
+    font-weight: 400;
+}
