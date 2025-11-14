@@ -112,12 +112,17 @@ function loadDay(fulldate, NumberOfDay, weekNumber){
     dayElement.appendChild(classesElement);
     
     var classes = Object.keys(programa[NumberOfDay]);
+    console.log(classes, NumberOfDay, programa[NumberOfDay]);
 
     for (let i = 0; i < classes.length; i++) {
         const course = classes[i];
-        const courseElement = createCourseElement(course, programa[NumberOfDay][course], weekNumber);
-        if(typeof courseElement === "object"){
-            classesElement.appendChild(courseElement);
+        for (let i = 0; i < programa[NumberOfDay][course].length; i++) {
+            const courseData = programa[NumberOfDay][course][i];
+    
+            const courseElement = createCourseElement(course, courseData, weekNumber);
+            if(typeof courseElement === "object"){
+                classesElement.appendChild(courseElement);
+            }
         }
     }
 

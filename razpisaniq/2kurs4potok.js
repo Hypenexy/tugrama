@@ -41,81 +41,77 @@ var programa = {
         ]
     },
     1:{
-        "ППЕ":{
+        "ППЕ":[{
             type: "л", // типът час л за лекция, су - семинарно упражнение и лу - лабораторно упражнение
             room: 2112, // номер на стая в която се провежда "ученето"
             weeks: "2-11", // от коя до коя седмица, в случай че са две или една се пише array - [2, 5]
             hours: "2-4", // това са часовете горе от колко започва до колко свършва ВКЛЮЧИТЕЛНО
             groups: "all" // кои групи карат часа, "all" или array
-        },
-        "ПНПЕ":{
+        }],
+        "ПНПЕ":[{
             type: "л",
             room: 2112,
             weeks: "2-11",
             hours: "5-7",
             groups: "all"
-        },
-        "САА":{
+        }],
+        "САА":[{
             type: "л",
             room: 2112,
             weeks: "2-11",
             hours: "8-10",
             groups: "all"
-        }
+        }]
     },
     2:{
-        "Математика III":{
-            type: "л",
-            room: 4422,
-            weeks: "2-11",
-            hours: "4-6",
-            groups: "all"
-        },
-        "МС":{
-            type: "л",
-            room: 4422,
-            weeks: "12-13",
-            hours: "4-6",
-            groups: "all"
-        },
-        "МС":{
-            type: "л",
-            room: 4422,
-            weeks: "all",
-            hours: "7-8",
-            groups: "all"
-        },
-        "ПНПЕ":{
-            type: "су",
-            room: 4422,
-            weeks: "2-9",
-            hours: "11-12",
-            groups: [1, 2],
-        },
-        "ПНПЕ":{
-            type: "су",
-            room: 4422,
-            weeks: "2-9",
-            hours: "9-10",
-            groups: [3, 4],
-        },
-        "Математика III":{
-            type: "су",
-            room: 4422,
-            weeks: "10-12",
-            hours: "11-12",
-            groups: [1, 2],
-        },
-        "Математика III":{
-            type: "су",
-            room: 4422,
-            weeks: "10-12",
-            hours: "9-10",
-            groups: [3, 4],
-        }
+        "Математика III": [
+            { type: "л", room: 4422, weeks: "2-11", hours: "4-6", groups: "all" },
+            { type: "су", room: 4422, weeks: "10-12", hours: "11-12", groups: [1,2] },
+            { type: "су", room: 4422, weeks: "10-12", hours: "9-10",  groups: [3,4] }
+        ],
+        "МС": [
+            { type: "л", room: 4422, weeks: "12-13", hours: "4-6", groups: "all" },
+            { type: "л", room: 4422, weeks: "all",   hours: "7-8", groups: "all" }
+        ],
+        "ПНПЕ": [
+            { type: "су", room: 4422, weeks: "2-9", hours: "11-12", groups: [1,2] },
+            { type: "су", room: 4422, weeks: "2-9", hours: "9-10",  groups: [3,4] }
+        ]
     },
     3:{
+        "САА":[{
+            type: "лу",
+            room: 2202,
+            weeks: "all",
+            hours: "3-4",
+            groups: 1,
+        },{
+            type: "лу",
+            room: 2202,
+            weeks: "all",
+            hours: "7-8",
+            groups: 3,
+        },{
+            type: "лу",
+            room: 2202,
+            weeks: "all",
+            hours: "9-10",
+            groups: 2,
+        },
+        {
+            type: "лу",
+            room: 2202,
+            weeks: "all",
+            hours: "5-6",
+            groups: 4,
+        }],
+        "ПНПЕ":[{
 
+        },{
+
+        },{
+
+        }]
     },
     4:{
 
