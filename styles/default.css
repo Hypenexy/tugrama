@@ -118,7 +118,8 @@ html, body, .app{
 
 .calendar .days .currentTime{
     position: absolute;
-    top: calc(var(--currentTimePosition) - 24px);
+    /* top: calc(var(--currentTimePosition) - 24px); */
+    top: var(--currentTimePosition);
     width: 100%;
     height: 2px;
     /* background-color: #65baff; */

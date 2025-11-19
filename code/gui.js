@@ -202,6 +202,9 @@ function createCourseElement(course, data, weekNumber){
     if(type == "лу"){
         type = locales.laboratory;
     }
+    if(type == "с"){
+        type = locales.sport;
+    }
 
     subtitle.textContent = `${type} ${data.room}`;
 

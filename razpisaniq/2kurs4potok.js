@@ -106,12 +106,103 @@ var programa = {
             groups: 4,
         }],
         "ПНПЕ":[{
-
+            type: "лу",
+            room: 2203,
+            weeks: "all",
+            hours: "3-4",
+            groups: 2,
         },{
-
+            type: "лу",
+            room: 2203,
+            weeks: "all",
+            hours: "5-6",
+            groups: 1,
         },{
-
-        }]
+            type: "лу",
+            room: 2203,
+            weeks: "all",
+            hours: "7-8",
+            groups: 4,
+        },{
+            type: "лу",
+            room: 2203,
+            weeks: "all",
+            hours: "9-10",
+            groups: 3,
+        }],
+        "МС_у":[{
+            type: "лу",
+            room: 3115,
+            weeks: "3-10",
+            hours: "3-4",
+            groups: 4,
+        },{
+            type: "лу",
+            room: 3115,
+            weeks: "3-10",
+            hours: "5-6",
+            groups: 3,
+        },{
+            type: "лу",
+            room: 3115,
+            weeks: "3-10",
+            hours: "7-8",
+            groups: 5,
+        },{
+            type: "лу",
+            room: 3115,
+            weeks: "3-10",
+            hours: "9-10",
+            groups: 6,
+        }
+        ],
+        "Спорт":[{
+            type: "с",
+            room: "Салон 3ти корпус",
+            weeks: "all",
+            hours: "1-2",
+            groups: "4-6",
+        }],
+        "Математика III":[{
+            type: "су",
+            room: 4214,
+            weeks: "10-12",
+            hours: "3-4",
+            groups: "5-6"
+        },{
+            type: "су",
+            room: 4214,
+            weeks: "2-13",
+            hours: "5-6",
+            groups: "5-6"
+        }
+        ],
+        "ППЕ":[{
+            type: "лу",
+            room: "2303",
+            weeks: "all",
+            hours: "5-6",
+            groups: 2,
+        },{
+            type: "лу",
+            room: "2303",
+            weeks: "all",
+            hours: "7-8",
+            groups: 1,
+        },{
+            type: "лу",
+            room: "2303",
+            weeks: "all",
+            hours: "9-10",
+            groups: 4,
+        },{
+            type: "лу",
+            room: "2303",
+            weeks: "all",
+            hours: "11-12",
+            groups: 3,
+        }
+        ]
     },
     4:{
 

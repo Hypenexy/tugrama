@@ -10,5 +10,6 @@ var locales = {
     lecture: "Лекция",
     seminar: "Семинар",
     laboratory: "Лаборатория",
+    sport: "Спорт"
 
 };
