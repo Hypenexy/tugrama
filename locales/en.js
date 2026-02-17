@@ -1,4 +1,5 @@
 var locales = {
+    // Days of the week
     monday: "Monday",
     tuesday: "Tuesday",
     wednesday: "Wednesday",
@@ -7,6 +8,7 @@ var locales = {
     saturday: "Saturday",
     sunday: "Sunday",
 
+    // Types of education
     lecture: "Lecture",
     seminar: "Seminar",
     laboratory: "Laboratory",

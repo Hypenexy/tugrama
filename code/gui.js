@@ -2,6 +2,8 @@ const app = document.createElement("div");
 app.classList = "app";
 document.body.appendChild(app);
 
+
+
 const calendarElement = document.createElement("div");
 calendarElement.classList = "calendar";
 app.appendChild(calendarElement);
@@ -104,6 +106,11 @@ function loadDay(fulldate, NumberOfDay, weekNumber){
     var date = dateAndDayOfTheWeek.split(",")[0];
     var dayOfTheWeek = dateAndDayOfTheWeek.split(",")[1];
 
+    var dateNow = new Date;
+    if(dateNow.getDate() == date.replace(/\D/g, "")){
+        dayElement.classList.add("active");
+    }
+
     var dayDisplay = loadDayDisplay(date, NumberOfDay);
     dayElement.appendChild(dayDisplay);
 
@@ -166,18 +173,20 @@ function createCourseElement(course, data, weekNumber){
     element.classList = "class";
 
     // if(data.weeks == "all"){} else
-    if(data.weeks.includes("-")){
-        var weeks = data.weeks.split("-");
-        if( // Proverqvame dali imame toq predmet taq sedmica (weekNumber)
-            weekNumber >= weeks[0] &&
-            weekNumber <= weeks[1]
-        ){}
-        else{
-            return;
+    if(data.weeks){
+        if(data.weeks.includes("-")){
+            var weeks = data.weeks.split("-");
+            if( // Proverqvame dali imame toq predmet taq sedmica (weekNumber)
+                weekNumber >= weeks[0] &&
+                weekNumber <= weeks[1]
+            ){}
+            else{
+                return;
+            }
         }
-    }
-    else if(typeof data.weeks === "object"){
-
+        else if(typeof data.weeks === "object"){
+    
+        }
     }
 
     var hour = data.hours.split("-");
@@ -186,27 +195,15 @@ function createCourseElement(course, data, weekNumber){
 
     var title = document.createElement("p");
     title.classList = "title";
-    title.textContent = course;
+    title.textContent = programa.classes[course].name;
     element.appendChild(title);
 
     var subtitle = document.createElement("p");
     subtitle.classList = "subtitle";
 
-    var type = data.type;
-    if(type == "л"){
-        type = locales.lecture;
-    }
-    if(type == "су"){
-        type = locales.seminar;
-    }
-    if(type == "лу"){
-        type = locales.laboratory;
-    }
-    if(type == "с"){
-        type = locales.sport;
-    }
+    var type = locales[programa.types[programa.classes[course].type]];
 
-    subtitle.textContent = `${type} ${data.room}`;
+    subtitle.textContent = `${type} ${programa.classes[course].room}`;
 
     element.appendChild(subtitle);
 

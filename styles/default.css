@@ -9,6 +9,10 @@ html, body, .app{
     height: 100%;
 }
 
+.calendar{
+    /* background-color: #65baff; */
+}
+
 .calendar, .days, .classes{
     height: 100%;
 }
@@ -49,7 +53,7 @@ html, body, .app{
     color: #595972;
 }
 .calendar .days .day .display:hover .firstCharacter,
-.calendar .days .day .display.active .firstCharacter{
+.calendar .days .day.active .display .firstCharacter{
     color: initial;
 }
 .calendar .days .day .display .nameOfDay{
@@ -57,7 +61,7 @@ html, body, .app{
     transition: .3s;
 }
 .calendar .days .day .display:hover .nameOfDay,
-.calendar .days .day .display.active .nameOfDay{
+.calendar .days .day.active .display .nameOfDay{
     width: var(--width);
 }
 
@@ -76,7 +80,7 @@ html, body, .app{
     transition: .3s;
 }
 .calendar .days .day .display:hover .date::after,
-.calendar .days .day .display.active .date::after{
+.calendar .days .day.active .display .date::after{
     width: 0px;
 }
 
@@ -86,6 +90,19 @@ html, body, .app{
     grid-template-rows: repeat(12, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 4px;
+
+    /* background-image: linear-gradient(to bottom, transparent 59px, #ccc 1px);
+    background-size: 100% 60px; */
+}
+
+.calendar .days .day.active .classes{
+    background-color: transparent;
+    background-image:
+        radial-gradient(#65baff, 0.5px, transparent 0.5px),
+        radial-gradient(#65baff 0.5px, transparent 0.5px),
+        radial-gradient(transparent 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0,10px 10px;
 }
 
 .calendar .days .day .classes .class{
