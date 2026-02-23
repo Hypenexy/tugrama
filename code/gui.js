@@ -2,7 +2,14 @@ const app = document.createElement("div");
 app.classList = "app";
 document.body.appendChild(app);
 
+const header = document.createElement("div");
+header.classList = "header";
+app.appendChild(header);
 
+const weekSelector = document.createElement("div");
+weekSelector.classList = "weekSelector";
+
+header.appendChild(weekSelector);
 
 const calendarElement = document.createElement("div");
 calendarElement.classList = "calendar";
