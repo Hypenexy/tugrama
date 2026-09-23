@@ -5,6 +5,14 @@
     font-family: sans-serif;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 html, body, .app{
     height: 100%;
 }
@@ -21,6 +29,8 @@ html, body, .app{
 .calendar{
     /* background-color: #65baff; */
     position: relative;
+
+    /* overflow: hidden; */
 }
 
 .calendar, .days, .classes{
@@ -171,4 +181,42 @@ html, body, .app{
     width: 100%;
     height: 2px;
     z-index: -1;
+}
+
+.calendar .CourseSideView{
+    position: absolute;
+    right: 0;
+    top: 0;
+    min-width: 300px;
+    height: 100%;
+    
+    background-color: #ececf4;
+    border-radius: 24px;
+    animation: courseSlide .3s;
+}
+
+.calendar .CourseSideView.closing{
+    animation: courseSlideReverse .3s;
+}
+
+
+@keyframes courseSlide {
+    0%{
+        opacity: 0;
+        transform: translateX(300px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+@keyframes courseSlideReverse {
+    0%{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+    100%{
+        opacity: 0;
+        transform: translateX(300px);
+    }
 }

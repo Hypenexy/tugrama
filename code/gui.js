@@ -214,8 +214,41 @@ function createCourseElement(course, data, weekNumber){
 
     element.appendChild(subtitle);
 
+    element.addEventListener("click", () => {
+        openCourse(course)
+    });
 
     return element;
+}
+
+function createXBtn(){
+    const element = document.createElement('span');
+    element.innerText = "close";
+    element.classList = "material-symbols-outlined"
+    return element;
+}
+
+function openCourse(course){
+    const element = document.createElement("div");
+    element.classList = "CourseSideView";
+
+    function closeCourse(){
+        element.classList.add("closing");
+        element.addEventListener("animationend", () => {
+            element.remove();
+        });
+    }
+
+    const xBtn = createXBtn();
+    xBtn.addEventListener("click", closeCourse);
+    element.appendChild(xBtn);
+
+    const room = programa.classes[course].room;
+    
+    console.log(room)
+    // element.innerText = room;
+
+    calendarElement.appendChild(element);
 }
 
 loadWeek()
