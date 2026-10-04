@@ -50,16 +50,14 @@ function daysInMonth(month){
     return moment(month).daysInMonth();
 }
 
-function datesInWeek(week){
-    var currentDate = moment();
-
-    var weekStart = currentDate.clone().startOf('isoWeek');
-    var weekEnd = currentDate.clone().endOf('isoWeek');
+function datesInWeek(week, startDate){
+    var currentDate = moment(startDate || undefined);
+    var weekStart = currentDate.clone().startOf('isoWeek').add(week - 1, 'weeks');
 
     var days = [];
 
     for (var i = 0; i <= 6; i++) {
-        days.push(moment(weekStart).add(i, 'days').format("MMMM Do,dddd"));
+        days.push(weekStart.clone().add(i, 'days').format("MMMM Do,dddd"));
     }
     
     return days;
@@ -102,4 +100,32 @@ function rangeTranslate(n, x, y){
     var OldRange = (x[1] - x[0]);
     var NewRange = (y[1] - y[0]);
     return (((n - x[0]) * NewRange) / OldRange) + y[0];
+}
+
+const preferences = {
+    group: 2
+}; 
+function saveSettings(){
+    try {
+        localStorage.setItem('settings', JSON.stringify(preferences));
+    } catch (error) {
+        console.error('Unable to save settings:', error);
+    }
+}
+function getSettings(){
+    try {
+        var settings = localStorage.getItem('settings');
+        if (settings) {
+            Object.assign(preferences, JSON.parse(settings));
+        }
+    } catch (error) {
+        console.error('Unable to load settings:', error);
+    }
+    return preferences;
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', getSettings);
+} else {
+    getSettings();
 }

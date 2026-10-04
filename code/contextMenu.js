@@ -1,3 +1,33 @@
+function clampMenuToViewport(element){
+    const bounds = element.getBoundingClientRect();
+    const left = Math.max(0, Math.min(bounds.left, window.innerWidth - bounds.width));
+    const top = Math.max(0, Math.min(bounds.top, window.innerHeight - bounds.height));
+    return {
+        left: left + window.scrollX,
+        top: top + window.scrollY
+    };
+}
+
+function levenshteinDistance(first, second){
+    if(first.length > second.length){
+        [first, second] = [second, first];
+    }
+
+    let previousRow = Array.from({length: first.length + 1}, (_, index) => index);
+    for(let row = 1; row <= second.length; row++){
+        const currentRow = [row];
+        for(let column = 1; column <= first.length; column++){
+            currentRow[column] = Math.min(
+                currentRow[column - 1] + 1,
+                previousRow[column] + 1,
+                previousRow[column - 1] + (first[column - 1] === second[row - 1] ? 0 : 1)
+            );
+        }
+        previousRow = currentRow;
+    }
+    return previousRow[first.length];
+}
+
 /**
  * Creates a contextMenu to attach to specific element
  * @param {*} type not used 
@@ -5,11 +35,17 @@
  */
 function contextMenu(type){
     const contextMenu = {};
+    const menuRoot = document.querySelector(".app") || document.body;
     contextMenu.node = document.createElement("div");
     contextMenu.node.classList.add("contextMenu", "hide");
     contextMenu.type = type;
     contextMenu.submenus = [];
     contextMenu.selectedConditions = [];
+    contextMenu.escapeHandler = (event) => {
+        if(event.key == "Escape" && !contextMenu.node.classList.contains("hide")){
+            contextMenu.removeElement();
+        }
+    };
 
     const dragElement = document.createElement("div");
     dragElement.classList.add("drag");
@@ -17,7 +53,7 @@ function contextMenu(type){
     dragElement.addEventListener("click", function(e){
         e.stopPropagation();
     });
-    draggableElement(contextMenu.node, dragElement);
+    // draggableElement(contextMenu.node, dragElement);
 
     function hideSubmenu(submenu){
         submenu.classList.remove("visible");
@@ -33,13 +69,13 @@ function contextMenu(type){
         const element = document.createElement("div");
         if(options){
             if(typeof options.action == "function" && options.disabled != true){
-                mdutils.ButtonEvent(element, ()=>{
+                element.addEventListener("click", ()=>{
                     options.action();
                     if(options.disableAutoClosing == true){
                         return;
                     }
                     contextMenu.removeElement();
-                }, null, options.actionEvent);
+                });
             }
             if(options.disabled == true){
                 element.classList.add("disabled");
@@ -62,7 +98,7 @@ function contextMenu(type){
                 });
             }
             if(options.tooltip){
-                attachTooltip(element, options.tooltip, true);
+                element.title = options.tooltip;
             }
         }
         switch (type) {
@@ -119,7 +155,7 @@ function contextMenu(type){
             element.addEventListener("focusout", mouseOut);
             element.addEventListener("mouseleave", mouseOut);
             subMenu.addEventListener("mouseleave", mouseOut);
-            app.appendChild(subMenu);
+            menuRoot.appendChild(subMenu);
             contextMenu.submenus.push(subMenu);
             return subMenu;
         }
@@ -180,9 +216,7 @@ function contextMenu(type){
             element();   
         }
 
-        escapeStack.push([contextMenu.node, contextMenu.removeElement]);
-        
-        const allContextMenus = app.querySelectorAll(".contextMenu"); // test for performance
+        const allContextMenus = menuRoot.querySelectorAll(".contextMenu");
         if(allContextMenus.length > 0){
             allContextMenus[0].remove();
         }
@@ -205,16 +239,17 @@ function contextMenu(type){
             contextMenu.node.style.left = event.clientX + "px";// done, the upper isn't.
         }
 
-        app.appendChild(contextMenu.node);
+        menuRoot.appendChild(contextMenu.node);
 
-        var normalOffset = mdutils.normalizeOffsetRightBottom(mdutils.getBoundingClientRectObject(contextMenu.node));
+        const normalOffset = clampMenuToViewport(contextMenu.node);
         contextMenu.node.style.left = normalOffset.left + "px";
         contextMenu.node.style.top = normalOffset.top + "px";
+        document.addEventListener("keydown", contextMenu.escapeHandler);
 
         // contextMenu.node.children[0].focus(); Doesn't focus
         for (let i = 0; i < contextMenu.submenus.length; i++) {
             const element = contextMenu.submenus[i];
-            app.appendChild(element);
+            menuRoot.appendChild(element);
         }
     }
 
@@ -244,9 +279,8 @@ function contextMenu(type){
         }
     }
     contextMenu.removeElement = () => {
-        var animationDuration = contextMenu.node.computedStyleMap().get('animation-duration');
-        animationDuration = animationDuration ? animationDuration : 0.1;
-    
+        document.removeEventListener("keydown", contextMenu.escapeHandler);
+
         for (let i = 0; i < contextMenu.submenus.length; i++) {
             const element = contextMenu.submenus[i];
             if(element.classList.contains("visible")){
@@ -265,4 +299,119 @@ function contextMenu(type){
     }
 
     return contextMenu;
+}
+
+/* Select.js */
+/**
+ * Creates a <div class="select"> (custom select element), with search functionality
+ * @param {Array} options 2D array of options [[Value, Name], [Value, Name]]
+ * @param {Function} action Function with the selected value as a parameter
+ * @returns The <div class="select"> element
+ */
+function createSelect(options, action){
+    const select = document.createElement("div");
+    select.classList.add("select");
+
+    // Options
+    if(options.length > 0){
+        select.innerHTML = `${options[0][1]}<i>arrow_drop_down</i>`;
+    }
+
+    select.addOption = (value, name) => {
+        options.push(value, name);
+    }
+
+
+    // Dropped down menu
+    const selectMenu = contextMenu();
+    selectMenu.node.classList.add("selectMenu");
+
+    const search = document.createElement("input");
+    search.placeholder = "search_the_list";
+
+    // Rendering to DOM, very optimized!
+    function renderList(visible, lastVisible){
+        if(visible == "all"){
+            var hidden = selectMenu.node.querySelectorAll(".hide");
+            for (let i = 0; i < hidden.length; i++) {
+                hidden[i].classList.remove("hide");
+            }
+            return;
+        }
+        for (let i = 0; i < visible.length; i++) {
+            var index = options.indexOf(visible[i]);
+            selectMenu.node.children[index+2].classList.remove("hide");
+        }
+        if(lastVisible){
+            const filteredArray = lastVisible.filter(value => !visible.includes(value));
+            for (let i = 0; i < filteredArray.length; i++) {
+                var index = options.indexOf(filteredArray[i]);
+                if(index == -1)
+                    continue;
+
+                selectMenu.node.children[index+2].classList.add("hide");
+            }
+        }
+        else{
+            for (let i = 0; i < options.length; i++) {
+                selectMenu.node.children[i+2].classList.add("hide");
+            }
+        }
+    }
+
+    // Searching algorithm
+    const MIN_DISTANCE = 10;
+    var lastFilteredOptions;
+    search.addEventListener("input", () => {
+        const searchText = search.value.toLowerCase();
+        if(searchText.length == 0){
+            lastFilteredOptions = "";
+            renderList("all");
+            return;
+        }
+
+        var scores = [];
+        const filteredOptions = options.filter((option) => {
+            // var score = 0,
+            //     words = option[1].toLowerCase().split(/[\s.,<>;:'"{}\[\]]+/),
+            //     searchTextWords = searchText.split(/[\s.,<>;:'"{}\[\]]+/);
+            // for (let i = 0; i < words.length; i++) {
+            //     for (let j = 0; j < searchTextWords.length; j++) {
+            //     }
+            // }
+
+            // scores.push([score, options.indexOf(option)]);
+
+            // console.log(score)
+            // return score <= MIN_DISTANCE;
+            const distance = levenshteinDistance(option[1].toLowerCase(), searchText);
+            return distance <= MIN_DISTANCE;
+        });
+
+        // scores.sort((a, b) => a[0] - b[0]);
+        // filteredOptions.sort((a, b) => scores[options.indexOf(a)][0] - scores[options.indexOf(b)][0]);
+        // console.log(filteredOptions);
+
+        // for (let i = 0; i < scores.length - 1; i++) {
+        //     [filteredOptions[scores[i][1]], filteredOptions[scores[i+1][1]]] = [filteredOptions[scores[i+1][1]], filteredOptions[scores[i][1]]];
+        // }
+
+        // console.log(filteredOptions);
+
+        if(lastFilteredOptions === filteredOptions){
+            return;
+        }
+
+        renderList(filteredOptions, lastFilteredOptions);
+        lastFilteredOptions = filteredOptions;
+    });
+    selectMenu.node.appendChild(search);
+
+    for (let i = 0; i < options.length; i++) {
+        selectMenu.add("button", options[i][1], {action: () => {action(options[i][0])}});
+    }
+
+    selectMenu.attach(select, select, true);
+
+    return select;
 }

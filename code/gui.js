@@ -2,6 +2,71 @@ const app = document.createElement("div");
 app.classList = "app";
 document.body.appendChild(app);
 
+function select(attachedElement, options){
+    const element = document.createElement("div")
+    element.classList = "select";
+
+    var getPosition = attachedElement.getBoundingClientRect();
+
+    element.style.left = getPosition.left + "px";
+    element.style.top = getPosition.bottom + "px";
+    element.style.width = getPosition.width + "px";
+
+    for (let i = 0; i < options.length; i++) {
+        const subElement = document.createElement("span");
+        const option = options[i];
+        var Value = option[0],
+            Action = option[1],
+            Placeholder = option[2];
+        subElement.textContent = Placeholder;
+        element.appendChild(subElement);
+    }
+
+    function onOutsideClick(e) {
+        if (!element.contains(e.target) && !attachedElement.contains(e.target)) {
+            closeSelect();
+        }
+    }
+
+    function openSelect() {
+        if (element.classList.contains("active")) return; // Prevent duplicate appends
+
+        (document.getElementById("app") || document.body).appendChild(element);
+        
+        element.classList.remove("closing");
+        element.classList.add("active");
+
+        // Listen for clicks outside
+        setTimeout(() => {
+            document.addEventListener("click", onOutsideClick);
+        }, 0);
+    }
+
+    function closeSelect() {
+        if (!element.classList.contains("active") || element.classList.contains("closing")) return;
+
+        document.removeEventListener("click", onOutsideClick);
+        element.classList.add("closing");
+
+        element.addEventListener("animationend", () => {
+            element.remove();
+            element.classList.remove("active", "closing");
+        }, { once: true });
+    }
+
+    attachedElement.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (element.classList.contains("active")) {
+            closeSelect();
+        } else {
+            openSelect();
+        }
+    });
+
+
+    attachedElement.addEventListener("click", openSelect);
+}
+
 const header = document.createElement("div");
 header.classList = "header";
 app.appendChild(header);
@@ -15,9 +80,17 @@ const groupSelector = document.createElement("div");
 groupSelector.classList = "filter";
 groupSelector.innerHTML = "Group <span>41b</span>"
 
-// selector
-
 header.appendChild(groupSelector);
+
+var options = [];
+options.push([0, ()=>{}, "All"]);
+for (let i = 0; i < programa.groups.length; i++) {
+    const element = programa.groups[i];
+    options.push([i+1, ()=>{}, element]);
+}
+
+select(groupSelector, options);
+
 
 const calendarElement = document.createElement("div");
 calendarElement.classList = "calendar";
@@ -36,9 +109,9 @@ function loadWeek(group){
     daysContainer.innerHTML = "";
 
     var weekStart = moment().clone().startOf('isoWeek');
-    var weekDates = datesInWeek();
 
-    var weekNumber = weeksSinceStart(programa.meta.Count_startDate)
+    var weekNumber = getRelevantWeek(programa);
+    var weekDates = datesInWeek(weekNumber, programa.meta.Count_startDate);
     
     var timeElement = times();
     daysContainer.appendChild(timeElement);
@@ -135,7 +208,6 @@ function loadDay(fulldate, NumberOfDay, weekNumber, group){
     
     if(programa[NumberOfDay]){
         var classes = Object.keys(programa[NumberOfDay]);
-        console.log(classes, NumberOfDay, programa[NumberOfDay]);
     
         for (let i = 0; i < classes.length; i++) {
             const course = classes[i];
@@ -189,8 +261,6 @@ function createCourseElement(course, data, weekNumber, group){
     const element = document.createElement("div");
     element.classList = "class";
 
-    console.log(group)
-    console.log(data)
     if(data.groups != "all"){
         if(typeof data.groups == "object"){
             if(!data.groups.includes(group)){
@@ -250,7 +320,7 @@ function createCourseElement(course, data, weekNumber, group){
 function createXBtn(){
     const element = document.createElement('span');
     element.innerText = "close";
-    element.classList = "material-symbols-outlined"
+    element.classList = "material-symbols-outlined x"
     return element;
 }
 

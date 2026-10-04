@@ -30,16 +30,28 @@ html, body, .app{
 }
 
 .header .filter{
+    cursor: pointer;
+
     background-color: #ececf4;
     border-radius: 12px;
     padding: 6px 12px;
     padding-right: 0;
+
+    transition: .2s;
 }
 .header .filter span{
     background-color: #cae1ff;
     padding: 6px 10px;
     border-radius: 12px;
 }
+
+.header .filter:hover{
+    background-color: #d2d2e2;
+}
+.header .filter:active{
+    background-color: #c9c9e4;
+}
+
 .calendar{
     /* background-color: #65baff; */
     position: relative;
@@ -213,6 +225,23 @@ html, body, .app{
     animation: courseSlideReverse .3s;
 }
 
+.calendar .CourseSideView .x{
+    cursor: pointer;
+    user-select: none;
+    padding: 12px;
+    color: #4d5366;
+    border-radius: 24px;
+    transition: .2s;
+}
+.calendar .CourseSideView .x:hover,
+.calendar .CourseSideView .x:focus-visible{
+    color: #1f222c;
+    background-color: #c9c9d877;
+}
+.calendar .CourseSideView .x:active{
+    border-radius: 18px;
+    color: #111;
+}
 
 @keyframes courseSlide {
     0%{
@@ -232,5 +261,58 @@ html, body, .app{
     100%{
         opacity: 0;
         transform: translateX(300px);
+    }
+}
+.select {
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    background: #e2e2eb;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px #0000001a;
+
+    border-radius: 12px;
+    padding: 12px;
+    gap: 4px;
+}
+
+.select span {
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.select span:hover {
+    background-color: #dddef3;
+}
+
+.select.active {
+    animation: selectDrop 0.2s forwards;
+}
+
+.select.closing {
+    animation: selectDropReverse 0.2s forwards;
+}
+
+@keyframes selectDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes selectDropReverse {
+    0% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-12px);
     }
 }
