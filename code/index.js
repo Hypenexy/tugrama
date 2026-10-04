@@ -7,7 +7,42 @@ function weeksSinceStart(startDate){
     }
 
     var diff = moment.duration(now.diff(start));
-    return Math.floor(diff.asWeeks());
+    return Math.floor(diff.asWeeks() + 1); // Start counting from 1
+}
+
+/**
+ * If all disciplines have ended for the week, display the next one
+ */
+function getRelevantWeek(programa, messageVariant){
+    var startDate = programa.meta.Count_startDate,
+        lastActiveDay = 1,
+        keys = Object.keys(programa);
+
+    for (let i = 0; i < keys.length; i++) {
+        const element = keys[i];
+
+        if(parseInt(element) > 0){
+            lastActiveDay = parseInt(element);
+        }
+    }
+
+    var weeks = weeksSinceStart(startDate);
+    
+    
+    var currentDate = moment();
+    var currentDay = currentDate.isoWeekday();
+
+    if(lastActiveDay < currentDay){
+        weeks++;
+        if(messageVariant){
+            return `Next week <span>${weeks}</span>`;
+        }
+    }
+    
+    if(messageVariant){
+        return `Current week <span>${weeks}</span>`;
+    }
+    return weeks;
 }
 
 function daysInMonth(month){

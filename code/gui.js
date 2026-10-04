@@ -7,9 +7,17 @@ header.classList = "header";
 app.appendChild(header);
 
 const weekSelector = document.createElement("div");
-weekSelector.classList = "weekSelector";
-
+weekSelector.classList = "filter";
+weekSelector.innerHTML = getRelevantWeek(programa, true)
 header.appendChild(weekSelector);
+
+const groupSelector = document.createElement("div");
+groupSelector.classList = "filter";
+groupSelector.innerHTML = "Group <span>41b</span>"
+
+// selector
+
+header.appendChild(groupSelector);
 
 const calendarElement = document.createElement("div");
 calendarElement.classList = "calendar";
@@ -24,7 +32,7 @@ function loadMonth(){
 }
 
 const weekDuration = 7;
-function loadWeek(){
+function loadWeek(group){
     daysContainer.innerHTML = "";
 
     var weekStart = moment().clone().startOf('isoWeek');
@@ -36,7 +44,7 @@ function loadWeek(){
     daysContainer.appendChild(timeElement);
 
     for (let i = 0; i < weekDuration; i++) {
-        var dayElement = loadDay(weekDates[i], i, weekNumber);
+        var dayElement = loadDay(weekDates[i], i, weekNumber, group);
         daysContainer.appendChild(dayElement);
     }
 
@@ -104,7 +112,7 @@ function times(){
     return timeElement;
 }
 
-function loadDay(fulldate, NumberOfDay, weekNumber){
+function loadDay(fulldate, NumberOfDay, weekNumber, group){
     NumberOfDay += 1;
     const dayElement = document.createElement("div");
     dayElement.classList = "day";
@@ -125,17 +133,19 @@ function loadDay(fulldate, NumberOfDay, weekNumber){
     classesElement.classList = "classes";
     dayElement.appendChild(classesElement);
     
-    var classes = Object.keys(programa[NumberOfDay]);
-    console.log(classes, NumberOfDay, programa[NumberOfDay]);
-
-    for (let i = 0; i < classes.length; i++) {
-        const course = classes[i];
-        for (let i = 0; i < programa[NumberOfDay][course].length; i++) {
-            const courseData = programa[NumberOfDay][course][i];
+    if(programa[NumberOfDay]){
+        var classes = Object.keys(programa[NumberOfDay]);
+        console.log(classes, NumberOfDay, programa[NumberOfDay]);
     
-            const courseElement = createCourseElement(course, courseData, weekNumber);
-            if(typeof courseElement === "object"){
-                classesElement.appendChild(courseElement);
+        for (let i = 0; i < classes.length; i++) {
+            const course = classes[i];
+            for (let i = 0; i < programa[NumberOfDay][course].length; i++) {
+                const courseData = programa[NumberOfDay][course][i];
+        
+                const courseElement = createCourseElement(course, courseData, weekNumber, group);
+                if(typeof courseElement === "object"){
+                    classesElement.appendChild(courseElement);
+                }
             }
         }
     }
@@ -175,9 +185,25 @@ function loadDayDisplay(date, NumberOfDay){
     return element;
 }
 
-function createCourseElement(course, data, weekNumber){
+function createCourseElement(course, data, weekNumber, group){
     const element = document.createElement("div");
     element.classList = "class";
+
+    console.log(group)
+    console.log(data)
+    if(data.groups != "all"){
+        if(typeof data.groups == "object"){
+            if(!data.groups.includes(group)){
+                return;
+            }
+        }
+        if(typeof data.groups == "number"){
+            if(group != data.groups){
+                return;
+            }
+        }
+    }
+    // if(data)
 
     // if(data.weeks == "all"){} else
     if(data.weeks){
@@ -251,4 +277,4 @@ function openCourse(course){
     calendarElement.appendChild(element);
 }
 
-loadWeek()
+loadWeek(1)
