@@ -15,10 +15,11 @@ function select(attachedElement, options){
     for (let i = 0; i < options.length; i++) {
         const subElement = document.createElement("span");
         const option = options[i];
-        var Value = option[0],
+        let Value = option[0],
             Action = option[1],
             Placeholder = option[2];
         subElement.textContent = Placeholder;
+        subElement.addEventListener("click", ()=>{Action(Value)});
         element.appendChild(subElement);
     }
 
@@ -71,22 +72,75 @@ const header = document.createElement("div");
 header.classList = "header";
 app.appendChild(header);
 
+const relevantWeek = getRelevantWeek(programa);
+
 const weekSelector = document.createElement("div");
 weekSelector.classList = "filter";
-weekSelector.innerHTML = getRelevantWeek(programa, true)
+weekSelector.innerHTML = getRelevantWeek(programa, true);
+
+const weekNumberElement = weekSelector.querySelector("span");
+
+
+
+const prevWeek_btn = document.createElement("span");
+prevWeek_btn.classList.add("material-symbols-outlined","arrow");
+prevWeek_btn.textContent = "chevron_left";
+prevWeek_btn.addEventListener("click", nextLastWeek);
+weekSelector.prepend(prevWeek_btn);
+
+const nextWeek_btn = document.createElement("span");
+nextWeek_btn.classList.add("material-symbols-outlined", "arrow");
+nextWeek_btn.textContent = "chevron_right";
+nextWeek_btn.addEventListener("click", () => {nextLastWeek(true)});
+weekSelector.appendChild(nextWeek_btn);
+
+function nextLastWeek(right){
+    var weekNumber = parseInt(weekNumberElement.textContent);
+    if(right == true){
+        weekNumber++;
+    }
+    else{
+        if(weekNumber != 1){
+            weekNumber--;
+        }
+    }
+    weekNumberElement.textContent = weekNumber;
+    loadWeek(preferences.group, weekNumber);
+}
+
+
 header.appendChild(weekSelector);
 
 const groupSelector = document.createElement("div");
 groupSelector.classList = "filter";
-groupSelector.innerHTML = "Group <span>41b</span>"
+function updateSelectedGroup(){
+    var groupName = "Error";
+    if(preferences.group || preferences.group == 0){
+        if(preferences.group == 0){
+            groupName = "All";
+        }
+        else{
+            groupName = programa.groups[preferences.group-1];
+        }
+    }
+    groupSelector.innerHTML = `Group <span>${groupName}</span>`;
+}
+updateSelectedGroup();
 
 header.appendChild(groupSelector);
 
+function updateGroup(value){
+    preferences.group = value;
+    updateSelectedGroup();
+    saveSettings();
+    loadWeek(preferences.group, weekNumberElement.textContent);
+}
+
 var options = [];
-options.push([0, ()=>{}, "All"]);
+options.push([0, ()=>{updateGroup(0)}, "All"]);
 for (let i = 0; i < programa.groups.length; i++) {
     const element = programa.groups[i];
-    options.push([i+1, ()=>{}, element]);
+    options.push([i+1, (value)=>{updateGroup(value)}, element]);
 }
 
 select(groupSelector, options);
@@ -105,12 +159,16 @@ function loadMonth(){
 }
 
 const weekDuration = 7;
-function loadWeek(group){
+function loadWeek(group, weekNumber){
     daysContainer.innerHTML = "";
+
+    if(group == 0){
+        group = null;
+    }
 
     var weekStart = moment().clone().startOf('isoWeek');
 
-    var weekNumber = getRelevantWeek(programa);
+    // var weekNumber = getRelevantWeek(programa);
     var weekDates = datesInWeek(weekNumber, programa.meta.Count_startDate);
     
     var timeElement = times();
@@ -263,12 +321,12 @@ function createCourseElement(course, data, weekNumber, group){
 
     if(data.groups != "all"){
         if(typeof data.groups == "object"){
-            if(!data.groups.includes(group)){
+            if(group && !data.groups.includes(group)){
                 return;
             }
         }
         if(typeof data.groups == "number"){
-            if(group != data.groups){
+            if(group && group != data.groups){
                 return;
             }
         }
@@ -282,13 +340,21 @@ function createCourseElement(course, data, weekNumber, group){
             if( // Proverqvame dali imame toq predmet taq sedmica (weekNumber)
                 weekNumber >= weeks[0] &&
                 weekNumber <= weeks[1]
-            ){}
+            ){
+                // console.log(weekNumber);
+                // console.log(weeks[0]);
+                // console.log(weeks[1]);
+            }
             else{
                 return;
             }
         }
         else if(typeof data.weeks === "object"){
-    
+            console.log(data.weeks);
+            console.log(data.weeks);
+            if(data.weeks){
+
+            }
         }
     }
 
@@ -347,4 +413,4 @@ function openCourse(course){
     calendarElement.appendChild(element);
 }
 
-loadWeek(1)
+loadWeek(preferences.group, relevantWeek);

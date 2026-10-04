@@ -121,6 +121,8 @@ function getSettings(){
     } catch (error) {
         console.error('Unable to load settings:', error);
     }
+    updateSelectedGroup();
+    loadWeek(preferences.group, relevantWeek);
     return preferences;
 }
 

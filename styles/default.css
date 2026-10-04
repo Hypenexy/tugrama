@@ -30,6 +30,7 @@ html, body, .app{
 }
 
 .header .filter{
+    user-select: none;
     cursor: pointer;
 
     background-color: #ececf4;
@@ -43,6 +44,16 @@ html, body, .app{
     background-color: #cae1ff;
     padding: 6px 10px;
     border-radius: 12px;
+}
+.header .filter span.arrow{
+    background-color: #ececf4;
+    font-size: 16px;
+    margin: -4px;
+    padding: 8px;
+    transition: .1s;
+}
+.header .filter span.arrow:hover{
+    background-color: #cae1ff;
 }
 
 .header .filter:hover{
