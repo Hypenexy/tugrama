@@ -97,8 +97,8 @@ var programa = {
     },
     1:{
         "ОС_лу":[
-            { type: "лу", room: 2205, weeks: [5, 7], hours: "7-8", groups: 1 },
-            { type: "лу", room: 2205, weeks: [6, 8], hours: "9-10", groups: 2 }
+            { type: "лу", room: 2205, weeks: "all", hours: "7-8", groups: 1 },
+            { type: "лу", room: 2205, weeks: "all", hours: "9-10", groups: 2 }
         ],
         "АСЛС_лу":[
             { type: "лу", room: 2318, weeks: "all", hours: "9-10", groups: 1 },
@@ -177,18 +177,18 @@ var programa = {
     5:{
         "ПП_лу":[
             { type: "лу", room: 2205, weeks: "all", hours: "7-8", groups: 1 },
-            { type: "лу", room: 2205, weeks: "all", hours: "6", groups: 2 },
+            { type: "лу", room: 2205, weeks: "all", hours: "5-6", groups: 2 },
             { type: "лу", room: 2205, weeks: "all", hours: "4-5", groups: 5 },
             { type: "лу", room: 2205, weeks: "all", hours: "9-10", groups: [5, 6] }
         ],
         "КП_лу":[
-            { type: "лу", room: 2310, weeks: "9, 10", hours: "4-5", groups: 1 },
+            { type: "лу", room: 2310, weeks: [9, 10], hours: "4-5", groups: 1 },
             { type: "лу", room: 2310, weeks: "all", hours: "7-8", groups: 2 },
-            { type: "лу", room: 2310, weeks: "9, 10", hours: "9-10", groups: 2 }
+            { type: "лу", room: 2310, weeks: [9, 10], hours: "9-10", groups: 2 }
         ],
         "ОКГ_лу":[
             { type: "лу", room: 1101, weeks: "all", hours: "9", groups: 1 },
-            { type: "лу", room: 1101, weeks: "all", hours: "4-5", groups: 2 },
+            { type: "лу", room: 1101, weeks: "all", hours: "3-4", groups: 2 },
             { type: "лу", room: 1101, weeks: "all", hours: "8", groups: 5 },
             { type: "лу", room: 1101, weeks: "all", hours: "7-8", groups: 6 }
         ],
