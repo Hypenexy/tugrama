@@ -397,6 +397,11 @@ function createXBtn(){
 }
 
 function openCourse(course){
+    var openCourses = calendarElement.querySelector(".CourseSideView");
+    if(openCourses){
+        openCourses.closeCourse();
+    }
+
     const element = document.createElement("div");
     element.classList = "CourseSideView";
 
@@ -407,14 +412,24 @@ function openCourse(course){
         });
     }
 
+    element.closeCourse = closeCourse;
+
     const xBtn = createXBtn();
     xBtn.addEventListener("click", closeCourse);
     element.appendChild(xBtn);
 
-    const room = programa.classes[course].room;
+    const dataElement = document.createElement("div");
+    dataElement.classList.add("data")
     
-    console.log(room)
-    // element.innerText = room;
+    parseRoom = programa.classes[course].room.toString()
+    dataElement.innerHTML = `
+        <span class="title">${programa.classes[course].name}</span>
+        <span>Building ${parseRoom[0]}</span>
+        <span>Floor ${parseRoom[1]}</span>
+        <span>Room ${parseRoom[2]}${parseRoom[3]}</span>
+
+    `
+    element.appendChild(dataElement);
 
     calendarElement.appendChild(element);
 }
