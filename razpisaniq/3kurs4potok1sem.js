@@ -105,41 +105,51 @@ var programa = {
             { type: "лу", room: 2318, weeks: "all", hours: "7-8", groups: 2 }
         ],
         "ОКГ_лу":[
-            { type: "лу", room: 1101, weeks: "all", hours: "11-12", groups: [1, 2] }
+            { type: "лу", room: 1101, weeks: [5, 7], hours: "11-12", groups: 1 },
+            { type: "лу", room: 1101, weeks: [6, 8], hours: "11-12", groups: 2 }
         ],
         "ПП_лу":[
-            { type: "лу", room: 2205, weeks: "all", hours: "4-5", groups: 3 },
-            { type: "лу", room: 2205, weeks: "all", hours: "6-7", groups: 4 }
+            { type: "лу", room: 2205, weeks: "all", hours: "3-4", groups: 3 },
+            { type: "лу", room: 2205, weeks: "all", hours: "5-6", groups: 4 }
         ],
         "КП_лу":[
-            { type: "лу", room: 2310, weeks: "8, 10", hours: "6-7", groups: 3 },
-            { type: "лу", room: 2310, weeks: "9, 11", hours: "4-5", groups: 4 }
+            { type: "лу", room: 2310, weeks: [8, 10], hours: "7-8", groups: 3 },
+            { type: "лу", room: 2310, weeks: [9, 11], hours: "7-8", groups: 4 }
+        ],
+        "ЦСТ_лу":[
+            { type: "лу", room: 2310, weeks: "all", hours: "5-6", groups: 3 },
+            { type: "лу", room: 2310, weeks: "all", hours: "3-4", groups: 4 }
         ]
     },
     2:{
         "ОС_лу":[
-            { type: "лу", room: 2205, weeks: "all", hours: "4-5", groups: 3 },
-            { type: "лу", room: 2205, weeks: "all", hours: "9-10", groups: 5 },
-            { type: "лу", room: 2205, weeks: "all", hours: "6-7", groups: 6 }
+            { type: "лу", room: 2205, weeks: "all", hours: "3-4", groups: 3 },
+            { type: "лу", room: 2205, weeks: "all", hours: "9-10", groups: 4 },
+            { type: "лу", room: 2205, weeks: "all", hours: "7-8", groups: 5 },
+            { type: "лу", room: 2205, weeks: "all", hours: "5-6", groups: 6 }
         ],
         "АСЛС_лу":[
-            { type: "лу", room: 2318, weeks: "all", hours: "6", groups: 3 },
+            { type: "лу", room: 2318, weeks: "all", hours: "5-6", groups: 3 },
             { type: "лу", room: 2318, weeks: "all", hours: "7-8", groups: 4 }
         ],
         "ОКГ_лу":[
-            { type: "лу", room: 1101, weeks: [4, 6, 8], hours: "8-9", groups: 3 },
-            { type: "лу", room: 1101, weeks: "all", hours: "7", groups: 3 },
-            { type: "лу", room: 1101, weeks: [4, 6, 8], hours: "4-5", groups: 4 },
-            { type: "лу", room: 1101, weeks: "all", hours: "6", groups: 4 },
-            { type: "лу", room: 1101, weeks: "5, 7", hours: "5-6", groups: 5 },
-            { type: "лу", room: 1101, weeks: "5, 7", hours: "11-12", groups: 5 },
-            { type: "лу", room: 1101, weeks: "5, 7", hours: "4-5", groups: 6 }
+            { type: "лу", room: 1101, weeks: [4, 6, 8], hours: "9-10", groups: 3 },
+            { type: "лу", room: 1101, weeks: "all", hours: "7-8", groups: 3 },
+
+            { type: "лу", room: 1101, weeks: [4, 6, 8], hours: "3-4", groups: 4 },
+            { type: "лу", room: 1101, weeks: "all", hours: "5-6", groups: 4 },
+
+            { type: "лу", room: 1101, weeks: [5, 7], hours: "9-10", groups: 5 },
+            
+            { type: "лу", room: 1101, weeks: [5, 7], hours: "3-4", groups: 6 }
+        ],
+        "ЦСТ_лу":[
+            {type: "лу", room: 2310, weeks: "all", hours: "5-6", groups: 5},
+            {type: "лу", room: 2310, weeks: "all", hours: "7-8", groups: 6}
         ],
         "КП_лу":[
-            { type: "лу", room: 2310, weeks: [9, 10, 11], hours: "4-5", groups: 5 },
-            { type: "лу", room: 2310, weeks: "all", hours: "7-8", groups: 5 },
-            { type: "лу", room: 2310, weeks: "all", hours: "8-9", groups: 6 },
-            { type: "лу", room: 2310, weeks: [9, 10, 11], hours: "10-11", groups: 6 }
+            { type: "лу", room: 2310, weeks: [9, 10, 11], hours: "3-4", groups: 5 },
+            { type: "лу", room: 2310, weeks: [9, 10, 11], hours: "9-10", groups: 6 }
         ]
     },
     3:{
@@ -175,27 +185,29 @@ var programa = {
         ]
     },
     5:{
+        "КП_лу":[
+            {type: "лу", room: 2310, weeks: [9, 10], hours: "3-4", groups: 1},
+            {type: "лу", room: 2310, weeks: [9, 10], hours: "9-10", groups: 2},
+        ],
         "ПП_лу":[
             { type: "лу", room: 2205, weeks: "all", hours: "7-8", groups: 1 },
             { type: "лу", room: 2205, weeks: "all", hours: "5-6", groups: 2 },
-            { type: "лу", room: 2205, weeks: "all", hours: "4-5", groups: 5 },
-            { type: "лу", room: 2205, weeks: "all", hours: "9-10", groups: [5, 6] }
+            { type: "лу", room: 2205, weeks: "all", hours: "3-4", groups: 6 },
+            { type: "лу", room: 2205, weeks: "all", hours: "9-10", groups: 5 }
         ],
-        "КП_лу":[
-            { type: "лу", room: 2310, weeks: [9, 10], hours: "4-5", groups: 1 },
-            { type: "лу", room: 2310, weeks: "all", hours: "7-8", groups: 2 },
-            { type: "лу", room: 2310, weeks: [9, 10], hours: "9-10", groups: 2 }
+        "ЦСТ_лу":[
+            { type: "лу", room: 2310, weeks: "all", hours: "5-6", groups: 1 },
+            { type: "лу", room: 2310, weeks: "all", hours: "7-8", groups: 2 }
         ],
         "ОКГ_лу":[
-            { type: "лу", room: 1101, weeks: "all", hours: "9", groups: 1 },
+            { type: "лу", room: 1101, weeks: "all", hours: "9-10", groups: 1 },
             { type: "лу", room: 1101, weeks: "all", hours: "3-4", groups: 2 },
-            { type: "лу", room: 1101, weeks: "all", hours: "8", groups: 5 },
-            { type: "лу", room: 1101, weeks: "all", hours: "7-8", groups: 6 }
+            { type: "лу", room: 1101, weeks: "all", hours: "7-8", groups: 6 },
+            { type: "лу", room: 1101, weeks: "all", hours: "5-6", groups: 5 }
         ],
         "АСЛС_лу":[
-            { type: "лу", room: 2318, weeks: "all", hours: "6-7", groups: 5 },
-            { type: "лу", room: 2318, weeks: "all", hours: "6-7", groups: 6 },
-            { type: "лу", room: 2318, weeks: "all", hours: "8-9", groups: 6 }
+            { type: "лу", room: 2318, weeks: "all", hours: "5-6", groups: 6 },
+            { type: "лу", room: 2318, weeks: "all", hours: "7-8", groups: 5 }
         ]
     }
 };
