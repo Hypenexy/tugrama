@@ -333,31 +333,37 @@ function createCourseElement(course, data, weekNumber, group){
     }
     // if(data)
 
-    // if(data.weeks == "all"){} else
-    if(data.weeks){
-        if(data.weeks.includes("-")){
-            var weeks = data.weeks.split("-");
-            if( // Proverqvame dali imame toq predmet taq sedmica (weekNumber)
-                weekNumber >= weeks[0] &&
-                weekNumber <= weeks[1]
-            ){
-                // console.log(weekNumber);
-                // console.log(weeks[0]);
-                // console.log(weeks[1]);
+    if(data.weeks == "all"){} 
+    else{
+        if(data.weeks){
+            if(typeof data.weeks === "object"){ // Check if data weeks property is an array or something
+                if(!data.weeks.includes(weekNumber)){ // Exclude classes that don't exist in the current week
+                    return;
+                }
             }
-            else{
-                return;
-            }
-        }
-        else if(typeof data.weeks === "object"){
-            console.log(data.weeks);
-            console.log(data.weeks);
-            if(data.weeks){
+            // if(data.weeks.includes("-")){
+            //     var weeks = data.weeks.split("-");
+            //     if( // Proverqvame dali imame toq predmet taq sedmica (weekNumber)
+            //         weekNumber >= weeks[0] &&
+            //         weekNumber <= weeks[1]
+            //     ){
+            //         // console.log(weekNumber);
+            //         // console.log(weeks[0]);
+            //         // console.log(weeks[1]);
+            //     }
+            //     else{
+            //         return;
+            //     }
+            // }
+            // else if(typeof data.weeks === "object"){
+            //     console.log(data.weeks);
+            //     console.log(data.weeks);
+            //     if(data.weeks){
 
-            }
+            //     }
+            // }
         }
     }
-
     var hour = data.hours.split("-");
     element.style.setProperty("--size", `${hour[0]} / 1 / ${hour[1]*1 + 1} / 2`);
     
@@ -391,6 +397,11 @@ function createXBtn(){
 }
 
 function openCourse(course){
+    var openCourses = calendarElement.querySelector(".CourseSideView");
+    if(openCourses){
+        openCourses.closeCourse();
+    }
+
     const element = document.createElement("div");
     element.classList = "CourseSideView";
 
@@ -401,14 +412,24 @@ function openCourse(course){
         });
     }
 
+    element.closeCourse = closeCourse;
+
     const xBtn = createXBtn();
     xBtn.addEventListener("click", closeCourse);
     element.appendChild(xBtn);
 
-    const room = programa.classes[course].room;
+    const dataElement = document.createElement("div");
+    dataElement.classList.add("data")
     
-    console.log(room)
-    // element.innerText = room;
+    parseRoom = programa.classes[course].room.toString()
+    dataElement.innerHTML = `
+        <span class="title">${programa.classes[course].name}</span>
+        <span>Building ${parseRoom[0]}</span>
+        <span>Floor ${parseRoom[1]}</span>
+        <span>Room ${parseRoom[2]}${parseRoom[3]}</span>
+
+    `
+    element.appendChild(dataElement);
 
     calendarElement.appendChild(element);
 }
